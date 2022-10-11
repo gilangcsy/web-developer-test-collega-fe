@@ -20,16 +20,16 @@ composer install
 cp .env.example .env
 php artisan key:generate
 ```
-php artisan serve
+- php artisan serve
 ```
   Navigate to `http://localhost:8000`
 ```  
 
 # How to get an account for Login
 - Assuming you've already installed and running back-end side (https://github.com/gilangcsy/web-developer-test-collega-be)
-- Open your browser, and run this API:
+- Open your Postman, and run this API:
 ```
-http://localhost:3001/v1/users/generate
+[POST] http://localhost:3001/v1/users
 ```
 - Example response from API:
 ```
