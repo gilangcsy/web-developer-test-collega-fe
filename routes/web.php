@@ -15,11 +15,10 @@ use App\Http\Controllers\DashboardController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::group(['middleware' => ['auth.check']], function () {
+    Route::get('/', function () {
+        return redirect()->route('dashboard.index');
+    });
     Route::prefix('dashboard/')->namespace('Authentication')->group(function () {
         Route::get('', [DashboardController::class, 'index'])->name('dashboard.index');
     });
@@ -30,6 +29,7 @@ Route::group(['middleware' => ['auth.check']], function () {
 });
 
 Route::group(['middleware' => ['login.check']], function () {
+    Route::get('/', [AuthController::class, 'index'])->name('auth.index');
     Route::prefix('auth/')->namespace('Authentication')->group(function () {
         Route::get('', [AuthController::class, 'index'])->name('auth.index');
         Route::post('', [AuthController::class, 'store'])->name('auth.login');
