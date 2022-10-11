@@ -37,7 +37,7 @@ php artisan key:generate
     "success": true,
     "message": "Generate user has been success.",
     "data": {
-        "name": "dynamic-value",
+        "name": "Random User 7",
         "email": "user7@collega.co.id",
         "password": "$2b$10$iCR1HfmkWK1FbUdcpT9FYuxu6L1jawZkIekMFQcLUp6iNsxpOo2Cm"
     }
