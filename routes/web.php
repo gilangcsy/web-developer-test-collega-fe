@@ -19,12 +19,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::prefix('auth/')->namespace('Authentication')->group(function () {
-    Route::get('', [AuthController::class, 'index'])->name('auth.index');
-    Route::post('', [AuthController::class, 'store'])->name('auth.login');
-    Route::delete('/logout', [AuthController::class, 'destroy'])->name('auth.logout');
+Route::group(['middleware' => ['auth.check']], function () {
+    Route::prefix('dashboard/')->namespace('Authentication')->group(function () {
+        Route::get('', [DashboardController::class, 'index'])->name('dashboard.index');
+    });
+
+    Route::prefix('auth/')->namespace('Authentication')->group(function () {
+        Route::delete('/logout', [AuthController::class, 'destroy'])->name('auth.logout');
+    });
 });
 
-Route::prefix('dashboard/')->namespace('Authentication')->group(function () {
-    Route::get('', [DashboardController::class, 'index'])->name('dashboard.index');
+Route::group(['middleware' => ['login.check']], function () {
+    Route::prefix('auth/')->namespace('Authentication')->group(function () {
+        Route::get('', [AuthController::class, 'index'])->name('auth.index');
+        Route::post('', [AuthController::class, 'store'])->name('auth.login');
+    });
 });
+
+
