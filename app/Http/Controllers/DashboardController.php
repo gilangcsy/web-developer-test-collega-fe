@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Validator;
 
-class AuthController extends Controller
+class DashboardController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +13,7 @@ class AuthController extends Controller
      */
     public function index()
     {
-        return view('login');
+        return view('dashboard');
     }
 
     /**
@@ -36,22 +34,7 @@ class AuthController extends Controller
      */
     public function store(Request $request)
     {
-        $login = Http::post('http://localhost:3001/v1/auth/login', [
-            'email' => $request->email,
-            'password' => $request->password
-        ]);
-
-        $login = json_decode($login->body());
-
-        if ($login->success){
-            $request->session()->put('token', $login->credentials->token);
-            $request->session()->put('email', $login->credentials->email);
-            $request->session()->put('id', $login->credentials->id);
-			
-            return redirect()->route('dashboard.index')->with('status', 'Welcome, ' . $login->credentials->email);
-        } else {
-            return redirect()->route('auth.index')->with('error', $login->message);
-        }
+        //
     }
 
     /**
@@ -94,17 +77,8 @@ class AuthController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        $logout = Http::post('http://localhost:3001/v1/auth/logout', [
-            'jwtToken' =>  $request->session()->get('token')
-        ]);
-        $logout = json_decode($logout->body());
-        if ($logout->success){
-            session()->flush();
-            return redirect()->route('auth.index')->with('status', 'Logout has been successfully.');
-        } else {
-            return redirect()->route('auth.index')->with('status', $login->message);
-        }
+        //
     }
 }

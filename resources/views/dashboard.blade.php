@@ -14,26 +14,22 @@
 </head>
 
 <body>
-    <div class="container p-5">
-        <div class="row">
-            <div class="col-12">
-                <form method="POST" action="{{ route('auth.login') }}">
-                    @csrf
-                    <div class="form-group">
-                        <label for="exampleInputEmail1">Email address</label>
-                        <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
-                            else.</small>
-                    </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">Password</label>
-                        <input type="password" name="password" class="form-control" id="exampleInputPassword1">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+          <div class="navbar-nav">
+            <a class="nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+            <form action="{{ route('auth.logout') }}" method="POST">
+                @csrf
+                @method('delete')
+                <button type="submit" class="btn btn-dark">Logout</button>
+            </form>
+          </div>
         </div>
-    </div>
+      </nav>
 
     <!-- Optional JavaScript; choose one of the two! -->
 
@@ -44,18 +40,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous">
     </script>
-
-@if (Session::has('error'))
-    <script>
-        alert('{{Session::get("error")}}')
-    </script>
-@endif
-
-@if (Session::has('status'))
-    <script>
-        alert('{{Session::get("status")}}')
-    </script>
-@endif
 
     <!-- Option 2: Separate Popper and Bootstrap JS -->
     <!--
@@ -69,6 +53,11 @@
         integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous">
     </script>
     -->
+    @if (Session::has('status'))
+        <script>
+            alert('{{ Session::get("status") }}')
+        </script>
+    @endif
 </body>
 
 </html>

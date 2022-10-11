@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +17,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::prefix('auth/')->namespace('Authentication')->group(function () {
+    Route::get('', [AuthController::class, 'index'])->name('auth.index');
+    Route::post('', [AuthController::class, 'store'])->name('auth.login');
+    Route::delete('/logout', [AuthController::class, 'destroy'])->name('auth.logout');
+});
+
+Route::prefix('dashboard/')->namespace('Authentication')->group(function () {
+    Route::get('', [DashboardController::class, 'index'])->name('dashboard.index');
 });
