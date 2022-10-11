@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class DashboardController extends Controller
 {
@@ -13,7 +14,14 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('dashboard');
+        $leave = [];
+
+        for ($i=0; $i < 5 ; $i++) {
+            $quotes = Http::get('https://api.kanye.rest/');
+            $quotes = json_decode($quotes->body());
+            $leave[$i] = $quotes->quote;
+        }
+        return view('dashboard', compact('leave'));
     }
 
     /**

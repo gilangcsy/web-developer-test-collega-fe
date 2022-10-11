@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class LoginCheck
 {
@@ -17,20 +18,18 @@ class LoginCheck
     public function handle(Request $request, Closure $next)
     {
         if(empty(session()->get('token'))) {
-            // $response = Http::post($this->url_dynamic() . 'auth/checkToken', [
-            //     'token' => session()->get('token')
-            // ]);
-            // $response = json_decode($response->body());
-            // if($response->success) {
-            //     return $next($request);
-            // } else {
-            //     session()->flush();
-            //     return redirect()->route('auth.index')->with('error', 'Your session is expired. You have to login again.');
-            // }
-            
             return $next($request);
         } else {
-            return redirect(route('dashboard.index'))->with('status', 'You already logged in.');
+            $response = Http::post('http://localhost:3001/v1/auth/checkToken', [
+                'token' => session()->get('token')
+            ]);
+            $response = json_decode($response->body());
+            if($response->success) {
+                return redirect(route('dashboard.index'))->with('status', 'You already logged in.');
+            } else {
+                session()->flush();
+                return redirect()->route('auth.index')->with('error', 'Your session is expired. You have to login again.');
+            }
         }
     }
 }
